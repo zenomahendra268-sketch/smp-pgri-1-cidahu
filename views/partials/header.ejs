@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#4F7254">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <title><%= typeof title !== 'undefined' ? title + ' — ' : '' %>SMP PGRI 1 CIDAHU</title>
+  <link rel="manifest" href="/manifest.json">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="icon" href="/images/logo.png" type="image/svg+xml">
+  <% if (clerkEnabled && clerkPublishableKey) { %>
+  <script async crossorigin="anonymous"
+    data-clerk-publishable-key="<%= clerkPublishableKey %>"
+    src="https://cdn.jsdelivr.net/npm/@clerk/clerk-js@latest/dist/clerk.browser.js">
+  </script>
+  <% } %>
+  <style>
+    /* Hamburger Menu */
+    .navbar-hamburger {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .navbar-hamburger span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: #0a0a0a;
+      transition: all 0.3s;
+    }
+    .navbar-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .navbar-hamburger.open span:nth-child(2) { opacity: 0; }
+    .navbar-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 60px;
+      left: 0; right: 0;
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+      z-index: 999;
+      padding: 8px 0;
+    }
+    .mobile-menu.open { display: block; }
+    .mobile-menu a {
+      display: block;
+      padding: 14px 24px;
+      color: var(--text);
+      text-decoration: none;
+      font-size: 15px;
+      border-bottom: 1px solid var(--border-light, #f0f0f0);
+      transition: background 0.15s;
+    }
+    .mobile-menu a:last-child { border-bottom: none; }
+    .mobile-menu a:hover, .mobile-menu a.active {
+      background: var(--green-pale);
+      color: var(--green);
+    }
+    .bottom-nav { display: none !important; }
+
+    @media (max-width: 768px) {
+      .navbar-hamburger { display: flex; }
+      .navbar-nav { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox">
+  <span class="lightbox-close" onclick="closeLightbox()">&#x2715;</span>
+  <img id="lightboxImg" src="" alt="Foto">
+</div>
+
+<!-- Navbar -->
+<nav class="navbar">
+  <div class="navbar-inner">
+    <a href="/" class="navbar-brand">
+      <div class="navbar-logo">
+        <img src="/images/logo.png" alt="Logo" onerror="this.parentElement.textContent='SMP'">
+      </div>
+      <div class="navbar-title">
+        <span>SMP PGRI 1 CIDAHU</span>
+        <strong>Portal Sekolah</strong>
+      </div>
+    </a>
+
+    <!-- Desktop Nav -->
+    <ul class="navbar-nav" id="navMenu">
+      <li><a href="/" class="<%= typeof activePage !== 'undefined' && activePage === 'home' ? 'active' : '' %>">Beranda</a></li>
+      <li><a href="/laporan" class="<%= typeof activePage !== 'undefined' && activePage === 'laporan' ? 'active' : '' %>">Buat Laporan</a></li>
+      <li><a href="/masukan-guru" class="<%= typeof activePage !== 'undefined' && activePage === 'masukan' ? 'active' : '' %>">Masukan Guru</a></li>
+      <li><a href="/cek-laporan" class="<%= typeof activePage !== 'undefined' && activePage === 'cek' ? 'active' : '' %>">Cek Laporan</a></li>
+    </ul>
+
+    <div class="navbar-actions">
+      <% if (clerkEnabled && clerkPublishableKey) { %>
+      <div id="clerk-user-area"></div>
+      <% } %>
+    </div>
+
+    <!-- Hamburger -->
+    <button class="navbar-hamburger" id="hamburgerBtn" onclick="toggleMobileMenu()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="/" class="<%= typeof activePage !== 'undefined' && activePage === 'home' ? 'active' : '' %>">Beranda</a>
+  <a href="/laporan" class="<%= typeof activePage !== 'undefined' && activePage === 'laporan' ? 'active' : '' %>">Buat Laporan</a>
+  <a href="/masukan-guru" class="<%= typeof activePage !== 'undefined' && activePage === 'masukan' ? 'active' : '' %>">Masukan Guru</a>
+  <a href="/cek-laporan" class="<%= typeof activePage !== 'undefined' && activePage === 'cek' ? 'active' : '' %>">Cek Laporan</a>
+</div>
+
+<script>
+function toggleMobileMenu() {
+  const menu = document.getElementById('mobileMenu');
+  const btn = document.getElementById('hamburgerBtn');
+  menu.classList.toggle('open');
+  btn.classList.toggle('open');
+}
+// Tutup menu saat klik di luar
+document.addEventListener('click', function(e) {
+  const menu = document.getElementById('mobileMenu');
+  const btn = document.getElementById('hamburgerBtn');
+  if (!menu.contains(e.target) && !btn.contains(e.target)) {
+    menu.classList.remove('open');
+    btn.classList.remove('open');
+  }
+});
+</script>
