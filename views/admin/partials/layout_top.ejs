@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= typeof pageTitle !== 'undefined' ? pageTitle + ' — ' : '' %>Admin SMP PGRI 1 CIDAHU</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<div class="admin-layout">
+
+  <!-- Sidebar Overlay (Mobile) -->
+  <div class="mobile-nav-overlay" id="sidebarOverlay"></div>
+
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="sidebar-logo">
+        <img src="/images/logo.png" alt="Logo" onerror="this.parentElement.textContent='SMP'">
+      </div>
+      <div class="sidebar-brand-text">
+        <strong>SMP PGRI 1</strong>
+        <span>Panel Admin</span>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="sidebar-section">Menu Utama</div>
+      <a href="/admin/dashboard" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'dashboard' ? 'active' : '' %>">
+        <span class="icon">📊</span> Dashboard
+      </a>
+      <a href="/admin/laporan" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'laporan' ? 'active' : '' %>">
+        <span class="icon">📝</span> Laporan Masuk
+        <% if (typeof stats !== 'undefined' && stats.baru > 0) { %>
+        <span class="badge-count"><%= stats.baru %></span>
+        <% } %>
+      </a>
+
+      <div class="sidebar-section">Guru & Pengumuman</div>
+      <a href="/admin/masukan-guru" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'masukan' ? 'active' : '' %>">
+        <span class="icon">👨‍🏫</span> Masukan Guru
+      </a>
+      <a href="/admin/rekap-guru" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'rekap' ? 'active' : '' %>">
+        <span class="icon">⭐</span> Rekap Rating Guru
+      </a>
+      <a href="/admin/pengumuman" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'pengumuman' ? 'active' : '' %>">
+        <span class="icon">📢</span> Pengumuman
+      </a>
+
+      <div class="sidebar-section">Ekspor & Laporan</div>
+      <a href="/admin/statistik" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'statistik' ? 'active' : '' %>">
+        <span class="icon">📈</span> Statistik
+      </a>
+
+      <div class="sidebar-section">Akun</div>
+      <a href="/admin/ganti-password" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'password' ? 'active' : '' %>">
+        <span class="icon">🔑</span> Ganti Password
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div style="color:rgba(255,255,255,0.5);font-size:12px;margin-bottom:8px">
+        👤 <%= typeof admin !== 'undefined' ? admin.nama : 'Admin' %>
+      </div>
+      <a href="/admin/logout">🚪 Keluar</a>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <div class="admin-main">
+    <!-- Admin Header -->
+    <header class="admin-header">
+      <div style="display:flex;align-items:center;gap:12px">
+        <button class="hamburger" id="sidebarToggle" style="display:none">
+          <span></span><span></span><span></span>
+        </button>
+        <div>
+          <div class="breadcrumb">Admin Panel / <%= typeof pageTitle !== 'undefined' ? pageTitle : '' %></div>
+          <h2><%= typeof pageTitle !== 'undefined' ? pageTitle : 'Dashboard' %></h2>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <a href="/" class="btn btn-outline btn-sm" target="_blank">🌐 Lihat Website</a>
+      </div>
+    </header>
+
+    <div class="admin-content">

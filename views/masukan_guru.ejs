@@ -1,0 +1,112 @@
+<%- include('partials/header', { title: 'Masukan Guru', activePage: 'masukan' }) %>
+
+<section class="section">
+  <div class="container">
+
+    <% if (sukses) { %>
+    <div class="alert alert-success fade-in" style="max-width:720px;margin:0 auto 24px">
+      <div><strong>Terima Kasih</strong><br><%= sukses %></div>
+    </div>
+    <% } %>
+
+    <% if (error) { %>
+    <div class="alert alert-danger fade-in" style="max-width:720px;margin:0 auto 24px">
+      <%= error %>
+    </div>
+    <% } %>
+
+    <% if (clerkEnabled && clerkPublishableKey) { %>
+    <div id="clerk-gate" style="display:none;max-width:720px;margin:0 auto 24px;text-align:center;padding:40px;background:var(--bg-secondary,#f8f8f8);border-radius:12px;border:1px solid var(--border)">
+      <p style="font-size:18px;font-weight:600;margin-bottom:8px">Masuk untuk Memberi Masukan</p>
+      <p style="color:var(--text-muted);margin-bottom:20px">Kamu perlu masuk dengan akun Google terlebih dahulu untuk mengirim masukan.</p>
+      <a href="/masuk" class="btn btn-primary">Masuk dengan Google</a>
+    </div>
+    <div id="masukan-form" style="display:none">
+    <% } %>
+
+    <div class="form-card fade-in">
+      <div class="form-title">Masukan untuk Guru</div>
+      <div class="form-subtitle">Berikan masukan konstruktif agar guru dapat mengajar lebih baik. Identitasmu terjaga.</div>
+
+      <form action="/masukan-guru" method="POST">
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Nama <span class="req">*</span></label>
+            <input type="text" name="nama" placeholder="Nama lengkapmu" required maxlength="100">
+          </div>
+          <div class="form-group">
+            <label>Kelas</label>
+            <select name="kelas">
+              <option value="">-- Pilih Kelas --</option>
+              <optgroup label="Kelas 7">
+                <option>7A</option><option>7B</option><option>7C</option><option>7D</option>
+              </optgroup>
+              <optgroup label="Kelas 8">
+                <option>8A</option><option>8B</option><option>8C</option><option>8D</option>
+              </optgroup>
+              <optgroup label="Kelas 9">
+                <option>9A</option><option>9B</option><option>9C</option><option>9D</option>
+              </optgroup>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Nama Guru <span class="req">*</span></label>
+            <input type="text" name="nama_guru" placeholder="Nama guru yang ingin diberi masukan" required maxlength="100">
+          </div>
+          <div class="form-group">
+            <label>Mata Pelajaran <span class="req">*</span></label>
+            <input type="text" name="mata_pelajaran" placeholder="Contoh: Matematika, Bahasa Indonesia" required maxlength="100">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Penilaian Pengajaran <span class="req">*</span></label>
+          <div class="star-rating">
+            <input type="radio" id="s5" name="rating" value="5" checked>
+            <label for="s5" title="Sangat Baik">&#9733;</label>
+            <input type="radio" id="s4" name="rating" value="4">
+            <label for="s4" title="Baik">&#9733;</label>
+            <input type="radio" id="s3" name="rating" value="3">
+            <label for="s3" title="Cukup">&#9733;</label>
+            <input type="radio" id="s2" name="rating" value="2">
+            <label for="s2" title="Kurang">&#9733;</label>
+            <input type="radio" id="s1" name="rating" value="1">
+            <label for="s1" title="Sangat Kurang">&#9733;</label>
+          </div>
+          <div class="form-hint">Klik bintang untuk memberi nilai</div>
+        </div>
+
+        <div class="form-group">
+          <label>Pesan / Masukan <span class="req">*</span></label>
+          <textarea name="pesan" placeholder="Tuliskan masukan, saran, atau apresiasi untuk guru tersebut secara sopan dan konstruktif..." required minlength="20" rows="6"></textarea>
+          <div class="form-hint">Sampaikan dengan sopan dan membangun</div>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-lg btn-block">
+          Kirim Masukan
+        </button>
+      </form>
+    </div>
+
+    <% if (clerkEnabled && clerkPublishableKey) { %>
+    </div><!-- #masukan-form -->
+    <script>
+    window.addEventListener('load', async () => {
+      await window.Clerk?.load();
+      if (window.Clerk?.user) {
+        document.getElementById('masukan-form').style.display = 'block';
+      } else {
+        document.getElementById('clerk-gate').style.display = 'block';
+      }
+    });
+    </script>
+    <% } %>
+
+  </div>
+</section>
+
+<%- include('partials/footer') %>

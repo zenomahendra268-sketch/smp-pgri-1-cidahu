@@ -1,0 +1,121 @@
+<%- include('partials/header', { title: 'Beranda', activePage: 'home' }) %>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-content fade-in">
+    <div class="hero-logo">
+      <img src="/images/logo.png" alt="Logo SMP PGRI 1 CIDAHU" onerror="this.parentElement.textContent='SMP'">
+    </div>
+    <h1>Portal Sekolah<br>SMP PGRI 1 CIDAHU</h1>
+    <p>Wadah aspirasi, laporan, dan masukan untuk sekolah yang lebih baik</p>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <strong><%= totalLaporan %></strong>
+        <span>Total Laporan</span>
+      </div>
+      <div class="hero-stat">
+        <strong><%= totalMasukan %></strong>
+        <span>Masukan Guru</span>
+      </div>
+      <div class="hero-stat">
+        <strong>24/7</strong>
+        <span>Tersedia</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Fitur Utama -->
+<section class="section">
+  <div class="container">
+    <div class="section-title">Layanan Portal Sekolah</div>
+    <div class="section-sub">Pilih layanan yang sesuai kebutuhanmu</div>
+
+    <div class="grid-3">
+      <div class="card fade-in">
+        <div class="card-icon">&#128221;</div>
+        <h3>Laporan Kejadian</h3>
+        <p>Laporkan siswa nakal, kejadian di sekolah, masalah kebersihan, kerusakan fasilitas, dan hal lainnya secara anonim.</p>
+        <a href="/laporan" class="card-link">Buat Laporan &rarr;</a>
+      </div>
+
+      <div class="card fade-in" style="animation-delay:0.1s">
+        <div class="card-icon">&#128104;&#8205;&#127979;</div>
+        <h3>Masukan untuk Guru</h3>
+        <p>Berikan masukan dan saran agar guru bisa mengajar lebih baik. Identitasmu tetap terjaga.</p>
+        <a href="/masukan-guru" class="card-link">Beri Masukan &rarr;</a>
+      </div>
+
+      <div class="card fade-in" style="animation-delay:0.2s">
+        <div class="card-icon">&#128269;</div>
+        <h3>Cek Status Laporan</h3>
+        <p>Gunakan kode unik yang kamu terima saat melapor untuk memantau perkembangan laporanmu.</p>
+        <a href="/cek-laporan" class="card-link">Cek Sekarang &rarr;</a>
+      </div>
+
+      <div class="card fade-in" style="animation-delay:0.3s">
+        <div class="card-icon">&#128274;</div>
+        <h3>Laporan Anonim</h3>
+        <p>Identitasmu hanya diketahui admin. Laporkan dengan aman tanpa takut diketahui teman-teman.</p>
+        <span style="color:var(--green);font-size:14px;margin-top:16px;display:block;">Dijamin Aman</span>
+      </div>
+
+      <div class="card fade-in" style="animation-delay:0.4s">
+        <div class="card-icon">&#9889;</div>
+        <h3>Respon Cepat</h3>
+        <p>Admin sekolah akan segera menindaklanjuti setiap laporan yang masuk dengan serius.</p>
+        <span style="color:var(--green);font-size:14px;margin-top:16px;display:block;">Ditindaklanjuti</span>
+      </div>
+
+      <div class="card fade-in" style="animation-delay:0.5s">
+        <div class="card-icon">&#128203;</div>
+        <h3>Kategori Lengkap</h3>
+        <p>Tersedia berbagai kategori laporan: kenakalan, kebersihan, fasilitas rusak, kejadian sekolah, dan lainnya.</p>
+        <a href="/laporan" class="card-link">Lihat Kategori &rarr;</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Kategori Laporan -->
+<section class="section" style="background: var(--green-pale); padding: 48px 0;">
+  <div class="container">
+    <div class="section-title">Kategori Laporan</div>
+    <div class="section-sub">Berbagai jenis laporan yang bisa kamu sampaikan</div>
+
+    <div class="grid-3">
+      <div style="display:flex;align-items:center;gap:12px;background:var(--white);padding:16px 20px;border-radius:var(--radius);border:1px solid var(--border);box-shadow:var(--shadow)">
+        <div><strong>Siswa Nakal</strong><br><span style="font-size:13px;color:var(--text-muted)">Perundungan, tawuran, dan sejenisnya</span></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;background:var(--white);padding:16px 20px;border-radius:var(--radius);border:1px solid var(--border);box-shadow:var(--shadow)">
+        <div><strong>Kebersihan</strong><br><span style="font-size:13px;color:var(--text-muted)">Toilet kotor, sampah menumpuk, dll</span></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;background:var(--white);padding:16px 20px;border-radius:var(--radius);border:1px solid var(--border);box-shadow:var(--shadow)">
+        <div><strong>Kejadian Sekolah</strong><br><span style="font-size:13px;color:var(--text-muted)">Insiden, kecelakaan, kejadian darurat</span></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;background:var(--white);padding:16px 20px;border-radius:var(--radius);border:1px solid var(--border);box-shadow:var(--shadow)">
+        <div><strong>Fasilitas Rusak</strong><br><span style="font-size:13px;color:var(--text-muted)">Meja rusak, listrik mati, atap bocor</span></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;background:var(--white);padding:16px 20px;border-radius:var(--radius);border:1px solid var(--border);box-shadow:var(--shadow)">
+        <div><strong>Lainnya</strong><br><span style="font-size:13px;color:var(--text-muted)">Hal lain yang perlu dilaporkan</span></div>
+      </div>
+      <a href="/laporan" style="display:flex;align-items:center;justify-content:center;gap:12px;background:var(--green);padding:16px 20px;border-radius:var(--radius);color:white;font-weight:700;font-size:15px;">
+        Buat Laporan Sekarang
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section">
+  <div class="container" style="text-align:center">
+    <h2 style="font-size:24px;margin-bottom:12px;color:var(--green)">Bersama Membangun Sekolah Lebih Baik</h2>
+    <p style="color:var(--text-muted);max-width:500px;margin:0 auto 24px">Setiap laporan dan masukan yang kamu berikan sangat berarti untuk kemajuan SMP PGRI 1 CIDAHU.</p>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+      <a href="/laporan" class="btn btn-primary btn-lg">Buat Laporan</a>
+      <a href="/masukan-guru" class="btn btn-outline btn-lg">Masukan Guru</a>
+    </div>
+  </div>
+</section>
+
+<%- include('partials/footer') %>
