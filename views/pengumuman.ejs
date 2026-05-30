@@ -1,0 +1,33 @@
+<%- include('partials/header', { title: 'Pengumuman', activePage: 'pengumuman' }) %>
+
+<section class="section">
+  <div class="container">
+    <div class="section-title">📢 Pengumuman Sekolah</div>
+    <div class="section-sub">Informasi terbaru dari SMP PGRI 1 CIDAHU</div>
+
+    <% if (pengumuman.length === 0) { %>
+    <div style="text-align:center;padding:60px 20px;background:var(--white);border-radius:var(--radius);border:1px solid var(--border)">
+      <div style="font-size:48px;margin-bottom:16px">📭</div>
+      <h3 style="color:var(--text-muted)">Belum ada pengumuman</h3>
+    </div>
+    <% } else { %>
+      <% pengumuman.forEach(p => { %>
+      <div class="pengumuman-item fade-in">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:8px">
+          <div>
+            <% if (p.penting) { %><span class="badge badge-baru" style="margin-bottom:8px;display:inline-block">🔔 PENTING</span><% } %>
+            <h4><%= p.judul %></h4>
+            <p><%= p.isi %></p>
+            <div class="pengumuman-meta">
+              <span>📅 <%= new Date(p.created_at).toLocaleDateString('id-ID', {day:'numeric',month:'long',year:'numeric'}) %></span>
+              <span>👤 <%= p.dibuat_oleh %></span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <% }) %>
+    <% } %>
+  </div>
+</section>
+
+<%- include('partials/footer') %>
