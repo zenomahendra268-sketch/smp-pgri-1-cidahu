@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daftar — SMP PGRI 1 CIDAHU</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <% if (clerkEnabled && clerkPublishableKey) { %>
+  <script async crossorigin="anonymous"
+    data-clerk-publishable-key="<%= clerkPublishableKey %>"
+    src="https://cdn.jsdelivr.net/npm/@clerk/clerk-js@latest/dist/clerk.browser.js">
+  </script>
+  <% } %>
+</head>
+<body>
+<div class="login-page">
+  <div class="login-card fade-in">
+    <div class="login-logo">
+      <div class="logo-circle">
+        <img src="/images/logo.png" alt="Logo" onerror="this.parentElement.textContent='SMP'">
+      </div>
+      <h2>SMP PGRI 1 CIDAHU</h2>
+      <p>Daftar Akun</p>
+    </div>
+
+    <% if (clerkEnabled && clerkPublishableKey) { %>
+    <div id="clerk-sign-up"></div>
+    <script>
+    window.addEventListener('load', async () => {
+      await window.Clerk?.load();
+      if (window.Clerk?.user) return window.location.href = '/';
+      window.Clerk?.mountSignUp(document.getElementById('clerk-sign-up'), {
+        afterSignUpUrl: '/',
+        signInUrl: '/masuk',
+      });
+    });
+    </script>
+    <% } else { %>
+    <div style="text-align:center;padding:30px;background:var(--bg-secondary);border-radius:12px;margin:20px 0">
+      <p style="font-size:40px;margin:0">🔒</p>
+      <p style="margin:10px 0;color:var(--text-muted)">Pendaftaran Google belum dikonfigurasi.</p>
+      <p style="font-size:13px;color:var(--text-muted)">Set <code>CLERK_PUBLISHABLE_KEY</code> di Railway untuk mengaktifkan.</p>
+    </div>
+    <% } %>
+
+    <p style="text-align:center;margin-top:20px;font-size:13px;color:var(--text-muted)">
+      <a href="/">← Kembali ke Beranda</a>
+    </p>
+  </div>
+</div>
+</body>
+</html>

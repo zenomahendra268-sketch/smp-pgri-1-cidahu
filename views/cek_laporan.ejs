@@ -1,0 +1,73 @@
+<%- include('partials/header', { title: 'Cek Status Laporan', activePage: 'cek' }) %>
+
+<section class="section">
+  <div class="container">
+    <div class="form-card fade-in">
+      <div class="form-title">Cek Status Laporan</div>
+      <div class="form-subtitle">Masukkan kode unik yang kamu terima saat membuat laporan</div>
+
+      <form action="/cek-laporan" method="GET">
+        <div class="form-group">
+          <label>Kode Laporan <span class="req">*</span></label>
+          <div style="display:flex;gap:10px">
+            <input type="text" name="kode" placeholder="Contoh: RPT-A1B2C3" required
+              style="text-transform:uppercase;letter-spacing:2px;font-size:16px"
+              value="<%= typeof kode !== 'undefined' ? kode : '' %>">
+            <button type="submit" class="btn btn-primary" style="flex-shrink:0">Cek</button>
+          </div>
+        </div>
+      </form>
+
+      <% if (typeof error !== 'undefined' && error) { %>
+      <div class="alert alert-danger" style="margin-top:16px">
+        <span></span> <%= error %>
+      </div>
+      <% } %>
+
+      <% if (typeof laporan !== 'undefined' && laporan) { %>
+      <div class="tracking-result fade-in">
+        <h3 style="margin-bottom:4px"><%= laporan.judul %></h3>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px">
+          <span class="badge badge-<%= laporan.kategori %>"><%= laporan.kategori %></span>
+          <span class="badge badge-<%= laporan.status %>"><%= laporan.status.toUpperCase() %></span>
+        </div>
+
+        <!-- Status Timeline -->
+        <div class="tracking-status">
+          <div class="status-step <%= laporan.status === 'baru' || laporan.status === 'proses' || laporan.status === 'selesai' ? 'done' : '' %> <%= laporan.status === 'baru' ? 'active' : '' %>">
+            <div class="step-dot">📥</div>
+            <span>Diterima</span>
+          </div>
+          <div class="status-step <%= laporan.status === 'proses' || laporan.status === 'selesai' ? 'done' : '' %> <%= laporan.status === 'proses' ? 'active' : '' %>">
+            <div class="step-dot">🔄</div>
+            <span>Diproses</span>
+          </div>
+          <div class="status-step <%= laporan.status === 'selesai' ? 'active done' : '' %>">
+            <div class="step-dot"></div>
+            <span>Selesai</span>
+          </div>
+        </div>
+
+        <div style="background:var(--green-pale);border-radius:var(--radius-sm);padding:16px;margin-top:16px">
+          <strong style="font-size:13px;color:var(--text-muted)">DESKRIPSI LAPORAN</strong>
+          <p style="margin-top:6px;font-size:14px"><%= laporan.deskripsi %></p>
+        </div>
+
+        <% if (laporan.catatan_admin) { %>
+        <div class="reply-box" style="margin-top:12px">
+          <strong style="font-size:13px">💬 Catatan Admin:</strong>
+          <p style="margin-top:4px;font-size:14px"><%= laporan.catatan_admin %></p>
+        </div>
+        <% } %>
+
+        <div style="font-size:12px;color:var(--text-muted);margin-top:12px">
+          📅 Dilaporkan: <%= new Date(laporan.created_at).toLocaleDateString('id-ID', {day:'numeric',month:'long',year:'numeric',hour:'2-digit',minute:'2-digit'}) %>
+        </div>
+      </div>
+      <% } %>
+
+    </div>
+  </div>
+</section>
+
+<%- include('partials/footer') %>
