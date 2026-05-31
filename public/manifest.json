@@ -4,8 +4,8 @@
   "description": "Portal Sekolah SMP PGRI 1 CIDAHU - Pelaporan & Aspirasi Siswa",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#4F7254",
+  "background_color": "#FF5C00",
+  "theme_color": "#FF5C00",
   "orientation": "portrait-primary",
   "icons": [
     {

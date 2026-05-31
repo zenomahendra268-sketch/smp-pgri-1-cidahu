@@ -4,24 +4,43 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><%= typeof pageTitle !== 'undefined' ? pageTitle + ' — ' : '' %>Admin SMP PGRI 1 CIDAHU</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/style.css">
+  <style>
+    /* Admin hamburger */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: var(--orange);
+      border: 3px solid var(--black);
+      padding: 8px;
+      cursor: pointer;
+      box-shadow: var(--shadow-sm);
+    }
+    .hamburger span { display: block; width: 20px; height: 2.5px; background: white; }
+    @media (max-width: 768px) {
+      .hamburger { display: flex; }
+    }
+    .mobile-nav-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.55); z-index: 250;
+    }
+    .mobile-nav-overlay.open { display: block; }
+  </style>
 </head>
 <body>
 <div class="admin-layout">
 
   <!-- Sidebar Overlay (Mobile) -->
-  <div class="mobile-nav-overlay" id="sidebarOverlay"></div>
+  <div class="mobile-nav-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
 
   <!-- Sidebar -->
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-brand">
-      <div class="sidebar-logo">
-        <img src="/images/logo.png" alt="Logo" onerror="this.parentElement.textContent='SMP'">
-      </div>
-      <div class="sidebar-brand-text">
-        <strong>SMP PGRI 1</strong>
-        <span>Panel Admin</span>
-      </div>
+      <span class="sidebar-wordmark">🎓 SMP PGRI 1 CIDAHU</span>
     </div>
 
     <nav class="sidebar-nav">
@@ -47,7 +66,7 @@
         <span class="icon">📢</span> Pengumuman
       </a>
 
-      <div class="sidebar-section">Ekspor & Laporan</div>
+      <div class="sidebar-section">Laporan & Data</div>
       <a href="/admin/statistik" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'statistik' ? 'active' : '' %>">
         <span class="icon">📈</span> Statistik
       </a>
@@ -59,7 +78,7 @@
     </nav>
 
     <div class="sidebar-footer">
-      <div style="color:rgba(255,255,255,0.5);font-size:12px;margin-bottom:8px">
+      <div style="color:rgba(255,255,255,0.5);font-size:12px;margin-bottom:8px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;">
         👤 <%= typeof admin !== 'undefined' ? admin.nama : 'Admin' %>
       </div>
       <a href="/admin/logout">🚪 Keluar</a>
@@ -71,11 +90,11 @@
     <!-- Admin Header -->
     <header class="admin-header">
       <div style="display:flex;align-items:center;gap:12px">
-        <button class="hamburger" id="sidebarToggle" style="display:none">
+        <button class="hamburger" id="sidebarToggle" onclick="toggleSidebar()">
           <span></span><span></span><span></span>
         </button>
         <div>
-          <div class="breadcrumb">Admin Panel / <%= typeof pageTitle !== 'undefined' ? pageTitle : '' %></div>
+          <div class="breadcrumb">Admin / <%= typeof pageTitle !== 'undefined' ? pageTitle : '' %></div>
           <h2><%= typeof pageTitle !== 'undefined' ? pageTitle : 'Dashboard' %></h2>
         </div>
       </div>
@@ -85,3 +104,13 @@
     </header>
 
     <div class="admin-content">
+<script>
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sidebarOverlay').classList.toggle('open');
+}
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebarOverlay').classList.remove('open');
+}
+</script>
