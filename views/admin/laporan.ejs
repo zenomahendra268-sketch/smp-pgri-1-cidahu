@@ -1,0 +1,109 @@
+<%- include('partials/layout_top', { pageTitle: 'Laporan Masuk', activeMenu: 'laporan', admin }) %>
+
+<!-- Filter Bar -->
+<div class="filter-bar">
+  <form action="/admin/laporan" method="GET" style="display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end;width:100%">
+    <div class="form-group" style="flex:2;min-width:180px;margin:0">
+      <label>🔍 Cari</label>
+      <input type="text" name="search" placeholder="Judul, nama, deskripsi..." value="<%= filter.search || '' %>">
+    </div>
+    <div class="form-group" style="flex:1;min-width:140px;margin:0">
+      <label>Kategori</label>
+      <select name="kategori">
+        <option value="">Semua</option>
+        <option value="siswa-nakal" <%= filter.kategori === 'siswa-nakal' ? 'selected' : '' %>>😈 Siswa Nakal</option>
+        <option value="kebersihan" <%= filter.kategori === 'kebersihan' ? 'selected' : '' %>>🗑️ Kebersihan</option>
+        <option value="kejadian" <%= filter.kategori === 'kejadian' ? 'selected' : '' %>>⚡ Kejadian</option>
+        <option value="fasilitas" <%= filter.kategori === 'fasilitas' ? 'selected' : '' %>>🏚️ Fasilitas</option>
+        <option value="lainnya" <%= filter.kategori === 'lainnya' ? 'selected' : '' %>>📢 Lainnya</option>
+      </select>
+    </div>
+    <div class="form-group" style="flex:1;min-width:130px;margin:0">
+      <label>Status</label>
+      <select name="status">
+        <option value="">Semua</option>
+        <option value="baru" <%= filter.status === 'baru' ? 'selected' : '' %>>🆕 Baru</option>
+        <option value="proses" <%= filter.status === 'proses' ? 'selected' : '' %>>🔄 Proses</option>
+        <option value="selesai" <%= filter.status === 'selesai' ? 'selected' : '' %>>✅ Selesai</option>
+        <option value="ditolak" <%= filter.status === 'ditolak' ? 'selected' : '' %>>❌ Ditolak</option>
+      </select>
+    </div>
+    <div style="display:flex;gap:8px;flex-shrink:0">
+      <button type="submit" class="btn btn-primary">Filter</button>
+      <a href="/admin/laporan" class="btn btn-outline">Reset</a>
+    </div>
+  </form>
+</div>
+
+<!-- Export Buttons -->
+<div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap">
+  <span style="font-size:14px;color:var(--text-muted);align-self:center"><%= laporan.length %> laporan ditemukan</span>
+  <div style="margin-left:auto;display:flex;gap:8px">
+    <a href="/admin/laporan/export?format=csv<%= filter.kategori ? '&kategori='+filter.kategori : '' %><%= filter.status ? '&status='+filter.status : '' %>" class="btn btn-outline btn-sm">📥 Export CSV</a>
+    <a href="/admin/laporan/export?format=pdf<%= filter.kategori ? '&kategori='+filter.kategori : '' %><%= filter.status ? '&status='+filter.status : '' %>" class="btn btn-outline btn-sm">📄 Export PDF</a>
+  </div>
+</div>
+
+<!-- Table -->
+<div class="table-wrap">
+  <% if (laporan.length === 0) { %>
+  <div style="padding:60px;text-align:center;color:var(--text-muted);background:var(--white)">
+    <div style="font-size:48px;margin-bottom:16px">📭</div>
+    <p>Tidak ada laporan yang sesuai filter</p>
+  </div>
+  <% } else { %>
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Judul</th>
+        <th>Pelapor</th>
+        <th>Kelas</th>
+        <th>Kategori</th>
+        <th>Foto</th>
+        <th>Status</th>
+        <th>Tanggal</th>
+        <th>Aksi</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% laporan.forEach((l, i) => { %>
+      <tr class="fade-in" style="animation-delay:<%= i * 0.03 %>s">
+        <td style="color:var(--text-muted);font-size:12px"><%= l.id %></td>
+        <td>
+          <a href="/admin/laporan/<%= l.id %>" style="font-size:14px;display:block;max-width:220px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">
+            <%= l.judul %>
+          </a>
+          <% if (l.kode_tracking) { %><span style="font-size:11px;color:var(--text-muted)">🔑 <%= l.kode_tracking %></span><% } %>
+        </td>
+        <td style="font-size:13px"><%= l.nama_pelapor %></td>
+        <td><span class="badge badge-info" style="background:var(--green-pale);color:var(--green);border-color:var(--green-border)"><%= l.kelas %></span></td>
+        <td><span class="badge badge-<%= l.kategori %>"><%= l.kategori %></span></td>
+        <td style="text-align:center">
+          <% if (l.foto) { %>
+          <% const fotos = l.foto.split(',').filter(Boolean); %>
+          <span style="cursor:pointer;font-size:18px" onclick="openLightbox('<%= fotos[0] %>')" title="<%= fotos.length %> foto">🖼️ <%= fotos.length %></span>
+          <% } else { %>
+          <span style="color:var(--text-muted);font-size:12px">-</span>
+          <% } %>
+        </td>
+        <td><span class="badge badge-<%= l.status %>"><%= l.status.toUpperCase() %></span></td>
+        <td style="font-size:12px;white-space:nowrap;color:var(--text-muted)">
+          <%= new Date(l.created_at).toLocaleDateString('id-ID', {day:'numeric',month:'short',year:'numeric'}) %>
+        </td>
+        <td>
+          <div style="display:flex;gap:6px">
+            <a href="/admin/laporan/<%= l.id %>" class="btn btn-outline btn-sm">Detail</a>
+            <form action="/admin/laporan/<%= l.id %>/hapus" method="POST" style="display:inline">
+              <button type="submit" class="btn btn-danger btn-sm" data-confirm="Hapus laporan ini?">🗑️</button>
+            </form>
+          </div>
+        </td>
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
+  <% } %>
+</div>
+
+<%- include('partials/layout_bottom') %>
